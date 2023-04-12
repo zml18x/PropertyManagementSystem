@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using PMS.Core.Entities;
 
 namespace PMS.Infrastructure.Data.Context
 {
@@ -10,6 +11,8 @@ namespace PMS.Infrastructure.Data.Context
 
         }
 
+
+        public DbSet<User> Users { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
