@@ -15,5 +15,12 @@
             CreatedAt = DateTime.UtcNow;
             LastUpdatedAt = DateTime.UtcNow;
         }
+
+
+
+        public virtual void UpdateTime()
+        {
+            LastUpdatedAt = DateTime.UtcNow;
+        }
     }
 }

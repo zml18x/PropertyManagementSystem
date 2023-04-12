@@ -12,7 +12,7 @@
 
 
         protected User() { }
-        public User(Guid id,Guid userProfileId, string email, byte[] passwordHash, byte[] passwordSalt, string role)
+        public User(Guid id,Guid userProfileId, string email, byte[] passwordHash, byte[] passwordSalt, string role = "User")
         {
             SetId(id, userProfileId);
             SetEmail(email);
