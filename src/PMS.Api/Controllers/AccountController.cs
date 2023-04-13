@@ -19,12 +19,21 @@ namespace PMS.Api.Controllers
 
 
 
+
         [HttpPost("/Register")]
         public async Task<IActionResult> RegisterAsync([FromBody] Register request)
         {
             await _userService.RegisterAsync(request.Email, request.Password, request.FirstName, request.LastName, request.PhoneNumber);
 
             return Created("/Account", null);
+        }
+
+        [HttpPost("/Login")]
+        public async Task<IActionResult> LoginAsync([FromBody] Login request)
+        {
+            await _userService.LoginAsync(request.Email, request.Password);
+
+            return Ok();
         }
     }
 }

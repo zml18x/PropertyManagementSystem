@@ -12,7 +12,7 @@ using PMS.Infrastructure.Data.Context;
 namespace PMS.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(PmsDbContext))]
-    [Migration("20230412191620_CreateInitial")]
+    [Migration("20230413202310_CreateInitial")]
     partial class CreateInitial
     {
         /// <inheritdoc />
@@ -68,9 +68,6 @@ namespace PMS.Infrastructure.Data.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AddressId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")

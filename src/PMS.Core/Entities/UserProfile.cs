@@ -6,18 +6,16 @@
         public string FirstName { get; protected set; }
         public string LastName { get; protected set; }
         public string PhoneNumber { get; protected set; }
-        public Guid AddressId { get; protected set; }
         public bool IsActive => !DeletedAt.HasValue;
 
 
 
         protected UserProfile() { }
-        public UserProfile(Guid id, string firstName, string lastName, string phoneNumber, Guid addressId)
+        public UserProfile(Guid id, string firstName, string lastName, string phoneNumber)
         {
             Id = id;
             SetNames(firstName, lastName);
             SetPhoneNumber(phoneNumber);
-            AddressId = addressId;
         }
 
 

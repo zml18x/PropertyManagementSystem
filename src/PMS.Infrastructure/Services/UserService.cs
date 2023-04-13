@@ -2,6 +2,7 @@
 using PMS.Infrastructure.Dto;
 using PMS.Infrastructure.Extensions;
 using PMS.Infrastructure.Interfaces;
+using System.Security.Authentication;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
@@ -46,18 +47,25 @@ namespace PMS.Infrastructure.Services
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
 
             var userProfileId = Guid.NewGuid();
-            var addressId = Guid.NewGuid();
 
-            user = new Core.Entities.User(Guid.NewGuid(), userProfileId, email, passwordSalt, passwordHash);
-            var userProfile = new Core.Entities.UserProfile(userProfileId, firstName, lastName, phoneNumber, addressId);
+            user = new Core.Entities.User(Guid.NewGuid(), userProfileId, email, passwordHash, passwordSalt);
+            var userProfile = new Core.Entities.UserProfile(userProfileId, firstName, lastName, phoneNumber);
 
             await _userRepository.CreateAsync(user);
             await _userProfileRepository.CreateAsync(userProfile);
         }
 
-        public Task LoginAsync(string email, string password)
+        public async Task LoginAsync(string email, string password)
         {
-            throw new NotImplementedException();
+            var user = await _userRepository.GetAsync(email);
+
+            if (user == null)
+                throw new InvalidCredentialException("Invalid credentials");
+
+            if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+                throw new InvalidCredentialException("Invalid credentials");
+
+            // RETURN JWT TOKEN
         }
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
@@ -66,6 +74,15 @@ namespace PMS.Infrastructure.Services
             {
                 passwordSalt = hmac.Key;
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+        }
+
+        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        {
+            using(var hmac = new HMACSHA512(passwordSalt))
+            {
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                return computedHash.SequenceEqual(passwordHash);
             }
         }
 
