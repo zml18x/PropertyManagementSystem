@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using PMS.Core.Entities;
 using PMS.Infrastructure.Dto;
+using PMS.Infrastructure.Exceptions;
 using PMS.Infrastructure.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -24,9 +25,18 @@ namespace PMS.Infrastructure.Services
 
         public JwtDto CreateToken(User user)
         {
-            var key = Encoding.ASCII.GetBytes(_configuration.GetSection("JWT:Key").Value);
+            if (user == null || user.Id == Guid.Empty)
+                throw new ArgumentException("Invalid user");
+
+
+            var key = Encoding.ASCII.GetBytes(_configuration.GetSection("JWT:Key")?.Value ?? 
+                throw new MissingConfigurationException("JWT key configuration is missing or empty"));
+
             var now = DateTime.UtcNow;
-            var expires = now.AddMinutes(int.Parse(_configuration.GetSection("JWT:ExpiryMinutes").Value));
+
+            var expires = now.AddMinutes(int.Parse(_configuration.GetSection("JWT:ExpiryMinutes")?.Value ?? 
+                throw new MissingConfigurationException("JWT expiry configuration is missing or empty")));
+
             var issuer = _configuration.GetSection("JWT:Issuer").Value;
 
             var claims = new Claim[]
