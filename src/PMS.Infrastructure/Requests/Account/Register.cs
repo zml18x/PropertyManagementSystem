@@ -1,9 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 
 namespace PMS.Infrastructure.Requests.Account
 {
-#nullable disable
     public class Register
     {
         [Required,EmailAddress]
@@ -16,6 +14,14 @@ namespace PMS.Infrastructure.Requests.Account
         public string LastName { get; set; }
         [Required,Phone]
         public string PhoneNumber { get; set; }
+
+        public Register(string email, string password, string firstName, string lastName, string phoneNumber)
+        {
+            Email = email;
+            Password = password;
+            FirstName = firstName;
+            LastName = lastName;
+            PhoneNumber = phoneNumber;
+        }
     }
-#nullable enable
 }

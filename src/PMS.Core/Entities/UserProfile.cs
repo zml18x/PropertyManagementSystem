@@ -1,6 +1,5 @@
 ﻿namespace PMS.Core.Entities
 {
-#pragma warning disable CS8618
     public class UserProfile : Entity
     {
         public string FirstName { get; protected set; }
@@ -24,6 +23,9 @@
         {
             // VALIDATION
 
+            if(firstName == null || lastName == null)
+                throw new ArgumentNullException(nameof(firstName));
+
             FirstName = firstName;
             LastName = lastName;
         }
@@ -32,8 +34,10 @@
         {
             // VALIDATION
 
+            if(phoneNumber == null)
+                throw new ArgumentNullException(nameof(phoneNumber));
+
             PhoneNumber = phoneNumber;
         }
     }
-#pragma warning restore CS8618
 }

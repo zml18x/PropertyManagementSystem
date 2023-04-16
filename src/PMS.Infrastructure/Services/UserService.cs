@@ -29,18 +29,14 @@ namespace PMS.Infrastructure.Services
         {
             var user = await _userRepository.GetOrFailAsync(id);
 
-            return new UserDto
-            {
-                UserId = user.Id,
-                UserProfileId = user.UserProfileId,
-                Role = user.Role,
-                Email = user.Email
-            };
+            return new UserDto(user.Id, user.UserProfileId, user.Role, user.Email);
         }
 
         public async Task RegisterAsync(string email, string password, string firstName, string lastName, string phoneNumber)
         {
-            var user = await _userRepository.GetAsync(email);
+            var emailWithoutSpaces = email.Trim(' ', '\n', '\t');
+
+            var user = await _userRepository.GetAsync(emailWithoutSpaces);
 
             if (user != null)
                 throw new EmailAlreadyExistException($"User with email '{email}' already exist");
@@ -50,7 +46,7 @@ namespace PMS.Infrastructure.Services
 
             var userProfileId = Guid.NewGuid();
 
-            user = new Core.Entities.User(Guid.NewGuid(), userProfileId, email, passwordHash, passwordSalt);
+            user = new Core.Entities.User(Guid.NewGuid(), userProfileId, emailWithoutSpaces, passwordHash, passwordSalt);
             var userProfile = new Core.Entities.UserProfile(userProfileId, firstName, lastName, phoneNumber);
 
             await _userRepository.CreateAsync(user);
@@ -69,12 +65,7 @@ namespace PMS.Infrastructure.Services
 
             var jwt = _jwtService.CreateToken(user);
 
-            return new TokenDto
-            {
-                Token = jwt.Token,
-                Expires = jwt.Expires,
-                Role = user.Role
-            };
+            return new TokenDto(jwt.Token, jwt.Expires, user.Role);
         }
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)

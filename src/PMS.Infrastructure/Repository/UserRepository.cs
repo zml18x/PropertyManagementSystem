@@ -22,7 +22,10 @@ namespace PMS.Infrastructure.Repository
             => await Task.FromResult(await _context.Users.SingleOrDefaultAsync(u => u.Id == id));
 
         public async Task<User> GetAsync(string email)
-            => await Task.FromResult(await _context.Users.SingleOrDefaultAsync(u => u.Email.ToLower() == email.ToLower()));
+        {
+           
+            return await Task.FromResult(await _context.Users.SingleOrDefaultAsync(u => u.Email.ToLower() == email.ToLower()));
+        }
 
         public async Task CreateAsync(User user)
         {

@@ -1,5 +1,10 @@
-﻿namespace PMS.Core.Entities
+﻿using PMS.Core.Exceptions;
+using System.Net.Mail;
+using System.Security.Cryptography;
+
+namespace PMS.Core.Entities
 {
+#nullable disable
     public class User : Entity
     {
         public string Role { get; protected set; }
@@ -24,7 +29,11 @@
 
         private void SetPassword(byte[] passwordHash, byte[] passwordSalt)
         {
-            // VALIDATION
+            if (passwordHash == null || passwordSalt == null)
+                throw new ArgumentNullException("passwordHash or passwordSalt", "PasswordHash and PasswordSalt cannot be null");
+
+            if (passwordHash.Length != HMACSHA512.HashSizeInBytes || passwordSalt.Length != 128)
+                throw new ArgumentException("passwordHash or passwordSalt", "Invalid length of password hash or salt");
 
             PasswordHash = passwordHash; 
             PasswordSalt = passwordSalt;
@@ -32,7 +41,11 @@
 
         private void SetId(Guid id, Guid userProfileId)
         {
-            // VALIDATION
+            if (id == Guid.Empty)
+                throw new EmptyIdException("Id cannot be empty");
+
+            if (userProfileId == Guid.Empty)
+                throw new EmptyIdException("UserProfileId cannot be empty");
 
             Id = id;
             UserProfileId = userProfileId;
@@ -40,16 +53,34 @@
 
         private void SetRole(string role)
         {
-            // VALIDATION
+            if(string.IsNullOrEmpty(role) || string.IsNullOrWhiteSpace(role))
+                throw new ArgumentNullException(nameof(role),"Role cannot be null");
+
+            //enum ???
+            var roles = new List<string>() { "Admin", "User" };
+
+            if (!roles.Contains(role))
+                throw new ArgumentException(nameof(role), "Invalid user role");
 
             Role = role;
         }
 
         private void SetEmail(string email)
         {
-            // VALIDATION
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrEmpty(email))
+                throw new ArgumentNullException(nameof(email), "Email cannot be null");
+
+            try
+            {
+                MailAddress mailAddres = new MailAddress(email);
+            }
+            catch
+            {
+                throw new ArgumentException("Incorrect email address format");
+            }
 
             Email = email;
         }
     }
+#nullable enable
 }

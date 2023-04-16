@@ -61,11 +61,7 @@ namespace PMS.Infrastructure.Services
 
             var token = new JwtSecurityTokenHandler().WriteToken(jwt);
 
-            return new JwtDto
-            {
-                Token = token,
-                Expires = expires.Ticks,
-            };
+            return new JwtDto(token, expires.Ticks);
         }
     }
 }

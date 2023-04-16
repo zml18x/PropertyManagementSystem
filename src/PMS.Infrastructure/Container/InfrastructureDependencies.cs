@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using PMS.Core.Repository;
 using PMS.Infrastructure.Data.Context;
+using PMS.Infrastructure.Exceptions;
 using PMS.Infrastructure.Interfaces;
 using PMS.Infrastructure.Repository;
 using PMS.Infrastructure.Services;
@@ -41,7 +42,7 @@ namespace PMS.Infrastructure.Container
                     ValidateIssuerSigningKey = true,
                     ValidateLifetime = true,
                     ValidateAudience = false,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration?["JWT:Key"] ?? throw new MissingConfigurationException("JWT key configuration is missing or empty")))
                 };
             });
         }
