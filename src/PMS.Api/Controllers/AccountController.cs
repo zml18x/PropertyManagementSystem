@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PMS.Infrastructure.Interfaces;
 using PMS.Infrastructure.Requests.Account;
 
@@ -30,10 +31,11 @@ namespace PMS.Api.Controllers
 
         [HttpPost("/Login")]
         public async Task<IActionResult> LoginAsync([FromBody] Login request)
-        {
-            await _userService.LoginAsync(request.Email, request.Password);
+            => new JsonResult(await _userService.LoginAsync(request.Email, request.Password));
 
-            return Ok();
-        }
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetAsync()
+            => new JsonResult(await _userService.GetAsync(Guid.Parse(User.Identity.Name)));
     }
 }

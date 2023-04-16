@@ -12,13 +12,15 @@ namespace PMS.Infrastructure.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserProfileRepository _userProfileRepository;
+        private readonly IJwtService _jwtService;
 
 
 
-        public UserService(IUserRepository userRepository,IUserProfileRepository userProfileRepository)
+        public UserService(IUserRepository userRepository,IUserProfileRepository userProfileRepository, IJwtService jwtService)
         {
             _userRepository = userRepository;
             _userProfileRepository = userProfileRepository;
+            _jwtService = jwtService;
         }
 
 
@@ -55,7 +57,7 @@ namespace PMS.Infrastructure.Services
             await _userProfileRepository.CreateAsync(userProfile);
         }
 
-        public async Task LoginAsync(string email, string password)
+        public async Task<TokenDto> LoginAsync(string email, string password)
         {
             var user = await _userRepository.GetAsync(email);
 
@@ -65,7 +67,14 @@ namespace PMS.Infrastructure.Services
             if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
                 throw new InvalidCredentialException("Invalid credentials");
 
-            // RETURN JWT TOKEN
+            var jwt = _jwtService.CreateToken(user);
+
+            return new TokenDto
+            {
+                Token = jwt.Token,
+                Expires = jwt.Expires,
+                Role = user.Role
+            };
         }
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
