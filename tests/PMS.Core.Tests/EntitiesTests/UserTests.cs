@@ -127,7 +127,7 @@ namespace PMS.Core.Tests.Entities
             role = string.Empty;
             Assert.Throws<ArgumentNullException>(() => new User(id, userProfileId, email, passwordHash, passwordSalt, role));
 
-            // CASE IF 'Role' IS NOT a User or Admin
+            // CASE IF 'Role' IS NOT a User OR Admin
             role = "Role";
             Assert.Throws<ArgumentException>(() => new User(id, userProfileId, email, passwordHash, passwordSalt, role));  
         }
@@ -157,7 +157,7 @@ namespace PMS.Core.Tests.Entities
             Assert.Throws<ArgumentNullException>(() => new User(id, userProfileId, email, passwordHash, passwordSalt, role));
 
 
-            // CASE WHEN 'EMAIL' IS IN THE WRONG FORMAT
+            // CASE WHEN 'Email' IS IN THE WRONG FORMAT
             email = "test.example.com";
             Assert.Throws<ArgumentException>(() => new User(id, userProfileId, email, passwordHash, passwordSalt, role));
 

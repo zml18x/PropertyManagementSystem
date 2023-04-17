@@ -1,5 +1,4 @@
 ﻿using PMS.Core.Exceptions;
-using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
