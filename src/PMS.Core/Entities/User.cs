@@ -1,6 +1,7 @@
 ﻿using PMS.Core.Exceptions;
 using System.Net.Mail;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 namespace PMS.Core.Entities
 {
@@ -70,14 +71,13 @@ namespace PMS.Core.Entities
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrEmpty(email))
                 throw new ArgumentNullException(nameof(email), "Email cannot be null");
 
-            try
-            {
-                MailAddress mailAddres = new MailAddress(email);
-            }
-            catch
-            {
-                throw new ArgumentException("Incorrect email address format");
-            }
+            if (email.Contains(' '))
+                throw new ArgumentException(nameof(email), "Email cannot contains whitespace");
+
+            Regex regex = new Regex("^([\\w\\.\\-]+)@([\\w\\-]+)((\\.(\\w){2,3})+)$");
+
+            if(!regex.IsMatch(email))
+                throw new ArgumentException("Invalid email format",nameof(email));
 
             Email = email;
         }
