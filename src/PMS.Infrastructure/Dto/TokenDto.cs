@@ -1,6 +1,4 @@
-﻿using System.Data;
-
-namespace PMS.Infrastructure.Dto
+﻿namespace PMS.Infrastructure.Dto
 {
     public class TokenDto : JwtDto
     {

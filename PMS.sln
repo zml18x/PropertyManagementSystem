@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PMS.Infrastructure", "src\P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PMS.Api", "src\PMS.Api\PMS.Api.csproj", "{5370A043-0270-472A-954F-15A9B8B8DA3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PMS.Core.Tests", "tests\PMS.Core.Tests\PMS.Core.Tests.csproj", "{847D0090-E4E4-427E-A096-41B6E7AD39AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PMS.Core.Tests", "tests\PMS.Core.Tests\PMS.Core.Tests.csproj", "{847D0090-E4E4-427E-A096-41B6E7AD39AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PMS.Infrastructure.Tests", "tests\PMS.Infrastructure.Tests\PMS.Infrastructure.Tests.csproj", "{6F7CBDDC-8740-40EE-BE96-8F2294641DE4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{847D0090-E4E4-427E-A096-41B6E7AD39AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{847D0090-E4E4-427E-A096-41B6E7AD39AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{847D0090-E4E4-427E-A096-41B6E7AD39AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F7CBDDC-8740-40EE-BE96-8F2294641DE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F7CBDDC-8740-40EE-BE96-8F2294641DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F7CBDDC-8740-40EE-BE96-8F2294641DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F7CBDDC-8740-40EE-BE96-8F2294641DE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
