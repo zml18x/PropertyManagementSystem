@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using PMS.Core.Exceptions;
+using System.Text.RegularExpressions;
 
 namespace PMS.Core.Entities
 {
@@ -14,12 +15,19 @@ namespace PMS.Core.Entities
         protected UserProfile() { }
         public UserProfile(Guid id, string firstName, string lastName, string phoneNumber)
         {
-            Id = id;
+            SetId(id);
             SetNames(firstName, lastName);
             SetPhoneNumber(phoneNumber);
         }
 
 
+        private void SetId(Guid id)
+        {
+            if (id == Guid.Empty)
+                throw new EmptyIdException("Id cannot be empty");
+
+            Id = id;
+        }
 
         private void SetNames(string firstName, string lastName)
         {
@@ -28,6 +36,9 @@ namespace PMS.Core.Entities
 
             if (firstName.Length < 2 || lastName.Length < 2)
                 throw new ArgumentException("First name & last name must be at least 2 characters long");
+
+            if (firstName.Length > 100 || lastName.Length > 100)
+                throw new ArgumentException("First name & last name can be up to 100 characters long.");
 
             Regex regex = new Regex("^[a-zA-Z]+$");
 

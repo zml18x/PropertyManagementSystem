@@ -25,6 +25,9 @@ namespace PMS.Core.Tests.Entities
             Assert.Equal(passwordSalt, user.PasswordSalt);
             Assert.Equal(role,user.Role);
             Assert.True(user.IsActive);
+            Assert.True(user.CreatedAt > DateTime.MinValue);
+            Assert.True(user.LastUpdatedAt > DateTime.MinValue);
+            Assert.True(user.DeletedAt == null);
         }
 
         [Fact]

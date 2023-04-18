@@ -17,7 +17,7 @@ namespace PMS.Core.Entities
 
 
         protected User() { }
-        public User(Guid id,Guid userProfileId, string email, byte[] passwordHash, byte[] passwordSalt, string role = "User")
+        public User(Guid id, Guid userProfileId, string email, byte[] passwordHash, byte[] passwordSalt, string role = "User")
         {
             SetId(id, userProfileId);
             SetEmail(email);
@@ -35,7 +35,7 @@ namespace PMS.Core.Entities
             if (passwordHash.Length != HMACSHA512.HashSizeInBytes || passwordSalt.Length != 128)
                 throw new ArgumentException("passwordHash or passwordSalt", "Invalid length of password hash or salt");
 
-            PasswordHash = passwordHash; 
+            PasswordHash = passwordHash;
             PasswordSalt = passwordSalt;
         }
 
@@ -53,8 +53,8 @@ namespace PMS.Core.Entities
 
         private void SetRole(string role)
         {
-            if(string.IsNullOrEmpty(role) || string.IsNullOrWhiteSpace(role))
-                throw new ArgumentNullException(nameof(role),"Role cannot be null");
+            if (string.IsNullOrEmpty(role) || string.IsNullOrWhiteSpace(role))
+                throw new ArgumentNullException(nameof(role), "Role cannot be null");
 
             //enum ???
             var roles = new List<string>() { "Admin", "User" };
@@ -75,8 +75,8 @@ namespace PMS.Core.Entities
 
             Regex regex = new Regex("^([\\w\\.\\-]+)@([\\w\\-]+)((\\.(\\w){2,3})+)$");
 
-            if(!regex.IsMatch(email))
-                throw new ArgumentException("Invalid email format",nameof(email));
+            if (!regex.IsMatch(email))
+                throw new ArgumentException("Invalid email format", nameof(email));
 
             Email = email;
         }
