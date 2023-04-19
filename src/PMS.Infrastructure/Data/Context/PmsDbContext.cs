@@ -6,6 +6,10 @@ namespace PMS.Infrastructure.Data.Context
 {
     public class PmsDbContext : DbContext
     {
+        public PmsDbContext()
+        {
+        }
+
         public PmsDbContext(DbContextOptions<PmsDbContext> options) : base(options)
         {
 

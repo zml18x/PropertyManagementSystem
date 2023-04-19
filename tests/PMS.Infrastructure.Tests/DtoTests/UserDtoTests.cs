@@ -1,6 +1,6 @@
 using PMS.Infrastructure.Dto;
 
-namespace PMS.Infrastructure.Tests.RepositoryTests
+namespace PMS.Infrastructure.Tests.DtoTests
 {
     public class UserDtoTests
     {
