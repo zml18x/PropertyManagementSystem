@@ -1,4 +1,5 @@
 using Microsoft.OpenApi.Models;
+using PMS.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +51,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

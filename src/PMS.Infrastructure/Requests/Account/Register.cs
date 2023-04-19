@@ -4,15 +4,15 @@ namespace PMS.Infrastructure.Requests.Account
 {
     public class Register
     {
-        [Required,EmailAddress]
+        [Required]
         public string Email { get; set; }
-        [Required,MinLength(8),MaxLength(100)]
+        [Required]
         public string Password { get; set; }
         [Required]
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
-        [Required,Phone]
+        [Required]
         public string PhoneNumber { get; set; }
 
         public Register(string email, string password, string firstName, string lastName, string phoneNumber)

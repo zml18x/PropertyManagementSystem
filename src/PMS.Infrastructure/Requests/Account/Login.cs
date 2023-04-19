@@ -4,9 +4,9 @@ namespace PMS.Infrastructure.Requests.Account
 {
     public class Login
     {
-        [Required,EmailAddress,MinLength(5)]
+        [Required]
         public string Email { get; set; }
-        [Required,MinLength(8),MaxLength(100)]
+        [Required]
         public string Password { get; set; }
 
 

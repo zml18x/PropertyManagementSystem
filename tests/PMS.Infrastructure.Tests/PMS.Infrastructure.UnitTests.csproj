@@ -26,4 +26,8 @@
     <ProjectReference Include="..\..\src\PMS.Infrastructure\PMS.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="RepositoryTests\" />
+  </ItemGroup>
+
 </Project>
