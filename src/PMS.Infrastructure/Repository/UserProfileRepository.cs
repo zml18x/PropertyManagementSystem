@@ -2,6 +2,7 @@
 using PMS.Core.Entities;
 using PMS.Core.Repository;
 using PMS.Infrastructure.Data.Context;
+using PMS.Infrastructure.Exceptions;
 
 namespace PMS.Infrastructure.Repository
 {
@@ -19,7 +20,8 @@ namespace PMS.Infrastructure.Repository
 
 
         public async Task<UserProfile> GetAsync(Guid id)
-            => await Task.FromResult(await _context.UserProfiles.SingleOrDefaultAsync(u => u.Id == id));
+            => await Task.FromResult(await _context.UserProfiles.SingleOrDefaultAsync(u => u.Id == id) 
+                ?? throw new UserNotFoundException($"UserProfile with ID '{id}' DOES NOT EXIST"));
 
         public async Task CreateAsync(UserProfile userProfile)
         {

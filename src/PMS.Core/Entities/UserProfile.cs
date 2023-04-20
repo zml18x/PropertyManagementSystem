@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace PMS.Core.Entities
 {
+#nullable disable
     public class UserProfile : Entity
     {
         public string FirstName { get; protected set; }
@@ -19,6 +20,7 @@ namespace PMS.Core.Entities
             SetNames(firstName, lastName);
             SetPhoneNumber(phoneNumber);
         }
+
 
 
         private void SetId(Guid id)
@@ -67,4 +69,5 @@ namespace PMS.Core.Entities
             PhoneNumber = phoneNumber;
         }
     }
+#nullable enable
 }
