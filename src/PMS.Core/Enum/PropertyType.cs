@@ -2,6 +2,6 @@
 {
     public enum PropertyType
     {
-        Hotel
+        Apartments
     }
 }

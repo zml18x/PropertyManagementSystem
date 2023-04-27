@@ -11,7 +11,7 @@ namespace PMS.Core.Entities
         public string Description { get; protected set; }
         public PropertyType Type { get; protected set; }
         public IEnumerable<Room> Rooms => _rooms;
-        public IEnumerable<Room> AvailableRooms => _rooms.Where(r => r.IsReserved == true);
+        public IEnumerable<Room> AvailableRooms => _rooms.Where(r => r.Availability == true);
         public int RoomsCount => _rooms.Count;
         public int AvailableRoomsCount => AvailableRooms.Count();
         public int ReservedRoomsCount => Rooms.Except(AvailableRooms).Count();
@@ -27,6 +27,13 @@ namespace PMS.Core.Entities
             Name = name;
             Description = description;
             Type = type;
+        }
+
+
+
+        public void AddRooms(int amount)
+        {
+            throw new NotImplementedException();
         }
     }
 }
