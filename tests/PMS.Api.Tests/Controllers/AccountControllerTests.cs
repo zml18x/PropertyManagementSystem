@@ -23,7 +23,7 @@ namespace PMS.Api.Tests.Controllers
 
 
         [Fact]
-        public async Task RegisterAsyncShouldInvokeRegisterAsyncOnUserServiceAndRetrun201StatusCode()
+        public async Task RegisterAsync_ShouldInvokeRegisterAsyncOnUserServiceAndRetrun201StatusCode()
         {
             var email = "test@mail.com";
             var password = "pa$SW0rD!";
@@ -31,10 +31,10 @@ namespace PMS.Api.Tests.Controllers
             var lastName = "TestTest";
             var phoneNumber = "123456789";
 
-            var accountControler = new AccountController(_userService.Object);
+            var accountController = new AccountController(_userService.Object);
             var request = new Register(email, password, firstName, lastName, phoneNumber);
 
-            var result = await accountControler.RegisterAsync(request);
+            var result = await accountController.RegisterAsync(request);
 
             _userService.Verify(x => x.RegisterAsync(email, password, firstName, lastName, phoneNumber), Times.Once);
             Assert.NotNull(result);
@@ -46,18 +46,18 @@ namespace PMS.Api.Tests.Controllers
         }
 
         [Fact]
-        public async Task LoginAsyncShouldInvokeLoginAsyncOnUserServiceAndReturnTokenDtoInJson()
+        public async Task LoginAsync_ShouldInvokeLoginAsyncOnUserServiceAndReturnTokenDtoInJson()
         {
             var email = "test@mail.com";
             var password = "pa$SW0rD!";
             var tokenDto = new TokenDto("token", DateTime.Now.AddDays(1).Ticks, "User");
 
-            var accountControler = new AccountController(_userService.Object);
+            var accountController = new AccountController(_userService.Object);
             var request = new Login(email, password);
 
             _userService.Setup(x => x.LoginAsync(email, password)).ReturnsAsync(tokenDto);
 
-            var result = await accountControler.LoginAsync(request);
+            var result = await accountController.LoginAsync(request);
             var jsonResult = (JsonResult)result;
 
 
@@ -68,12 +68,12 @@ namespace PMS.Api.Tests.Controllers
         }
 
         [Fact]
-        public async Task GetAsyncShouldInvokeGetAsyncOnUserServiceAndReturnAccountDtoInJson()
+        public async Task GetAsync_ShouldInvokeGetAsyncOnUserServiceAndReturnAccountDtoInJson()
         {
             var userId = Guid.NewGuid();
-            var accountControler = new AccountController(_userService.Object);
+            var accountController = new AccountController(_userService.Object);
 
-            accountControler.ControllerContext = new ControllerContext
+            accountController.ControllerContext = new ControllerContext
             {
                 HttpContext = new DefaultHttpContext
                 {
@@ -87,7 +87,7 @@ namespace PMS.Api.Tests.Controllers
             var userDto = new UserDto(userId, Guid.NewGuid(), "User", "test@mail.com");
             _userService.Setup(x => x.GetAsync(userId)).ReturnsAsync(userDto);
 
-            var result = await accountControler.GetAsync();
+            var result = await accountController.GetAsync();
             var jsonResult = (JsonResult)result;
 
             _userService.Verify(x => x.GetAsync(userId), Times.Once);
