@@ -2,6 +2,7 @@
 using PMS.Core.Entities;
 using PMS.Core.Repository;
 using PMS.Infrastructure.Dto;
+using PMS.Infrastructure.Exceptions;
 using PMS.Infrastructure.Interfaces;
 using PMS.Infrastructure.Services;
 using System.Security.Authentication;
@@ -36,7 +37,7 @@ namespace PMS.Infrastructure.UnitTests.Services
         }
 
         [Fact]
-        public async Task loginAsyncShouldInvokeCreateTokenOnJwtServiceAndReturnTokenDto()
+        public async Task LoginAsyncShouldInvokeCreateTokenOnJwtServiceAndReturnTokenDto()
         {
             var userId = Guid.NewGuid();
             var userProfileId = Guid.NewGuid();
@@ -80,7 +81,7 @@ namespace PMS.Infrastructure.UnitTests.Services
 
             _userRepositoryMock.Setup(x => x.GetAsync(email)).ReturnsAsync((User)null);
 
-            Assert.ThrowsAsync<InvalidCredentialException>(() => _userService.LoginAsync(email, password));
+            await Assert.ThrowsAsync<InvalidCredentialException>(() => _userService.LoginAsync(email, password));
         }
 
         [Fact]
@@ -105,7 +106,41 @@ namespace PMS.Infrastructure.UnitTests.Services
 
             _userRepositoryMock.Setup(x => x.GetAsync(email)).ReturnsAsync(user);
 
-            Assert.ThrowsAsync<InvalidCredentialException>(() => _userService.LoginAsync(user.Email, "incorrectPassword"));      
+            await Assert.ThrowsAsync<InvalidCredentialException>(() => _userService.LoginAsync(user.Email, "incorrectPassword"));      
+        }
+
+        [Fact]
+        public async Task GetAsyncShouldReturnUserDtoIfIdIsCorrect()
+        {
+            Setup();
+
+            var userId = Guid.NewGuid();
+            var userProfileId = Guid.NewGuid();
+            var email = "test@mail.com";
+            byte[] passwordHash = new byte[64];
+            byte[] passwordSalt = new byte[128];
+
+            var user = new User(userId,userProfileId, email, passwordHash, passwordSalt);
+
+            _userRepositoryMock.Setup(x => x.GetAsync(userId)).ReturnsAsync(user);
+
+            var result = await _userService.GetAsync(user.Id);
+
+            _userRepositoryMock.Verify(x => x.GetAsync(user.Id), Times.Once);
+            Assert.NotNull(result);
+            Assert.Equal(userId, result.UserId);
+            Assert.Equal(email, result.Email);
+            Assert.Equal(userProfileId, result.UserProfileId);
+        }
+
+        [Fact]
+        public async Task GetAsyncThrowsUserNotFoundExceptionWhenUserWithIdDoesNotExist()
+        {
+            Setup();
+
+            var id = Guid.NewGuid();
+
+            await Assert.ThrowsAsync<UserNotFoundException>(() => _userService.GetAsync(id));
         }
     }
 }
