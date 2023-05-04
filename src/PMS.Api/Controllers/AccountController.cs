@@ -20,7 +20,6 @@ namespace PMS.Api.Controllers
 
 
 
-
         [HttpPost("/Register")]
         public async Task<IActionResult> RegisterAsync([FromBody] Register request)
         {
