@@ -5,6 +5,7 @@ namespace PMS.Core.Entities
 {
     public class Room : Entity
     {
+        public Guid PropertyId { get; protected set; }
         public RoomType RoomType { get; protected set; }
         public int RoomNumber { get; protected set; }
         public int FloorNumber { get; protected set; }
@@ -18,10 +19,11 @@ namespace PMS.Core.Entities
 
 
         protected Room() { }
-        public Room(Guid id,RoomType roomType, int roomNumber, int floorNumber, int maxOccupancy,
+        public Room(Property property,Guid id,RoomType roomType, int roomNumber, int floorNumber, int maxOccupancy,
             string? name = null, string? description = null)
         {
             Id = id;
+            PropertyId = property.Id;
             RoomType = roomType;
             RoomNumber = roomNumber;
             FloorNumber = floorNumber;
@@ -35,7 +37,7 @@ namespace PMS.Core.Entities
         public void ReserveRoom(DateTime checkInDate, DateTime? checkOutDate = null)
         {
             if (!Availability)
-                throw new RoomIsBookedException("The room is booked");
+                throw new RoomIsBookedException("The room is already booked");
 
             CheckInDate = checkInDate;
             CheckOutDate = checkOutDate;

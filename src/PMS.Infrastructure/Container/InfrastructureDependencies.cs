@@ -24,6 +24,9 @@ namespace PMS.Infrastructure.Container
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserProfileRepository, UserProfileRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPropertyRepository, PropertyRepository>();
+            services.AddScoped<IPropertyService, PropertyService>();
+            services.AddScoped<IAddressRepository, AddressRepository>();
             services.AddScoped<IJwtService, JwtService>();
 
 

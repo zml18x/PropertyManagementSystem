@@ -28,12 +28,5 @@ namespace PMS.Core.Entities
             Description = description;
             Type = type;
         }
-
-
-
-        public void AddRooms(int amount)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

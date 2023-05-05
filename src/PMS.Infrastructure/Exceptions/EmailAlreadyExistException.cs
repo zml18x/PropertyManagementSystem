@@ -1,4 +1,4 @@
-﻿namespace PMS.Infrastructure.Extensions
+﻿namespace PMS.Infrastructure.Exceptions
 {
     public class EmailAlreadyExistException : Exception
     {

@@ -1,5 +1,6 @@
 ﻿using PMS.Core.Repository;
 using PMS.Infrastructure.Dto;
+using PMS.Infrastructure.Exceptions;
 using PMS.Infrastructure.Extensions;
 using PMS.Infrastructure.Interfaces;
 using System.Security.Authentication;

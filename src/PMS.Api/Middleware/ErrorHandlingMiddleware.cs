@@ -1,5 +1,4 @@
 ﻿using PMS.Infrastructure.Exceptions;
-using PMS.Infrastructure.Extensions;
 using System.Net;
 using System.Security.Authentication;
 using System.Text.Json;
