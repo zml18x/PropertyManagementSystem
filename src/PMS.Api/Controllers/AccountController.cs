@@ -30,11 +30,25 @@ namespace PMS.Api.Controllers
 
         [HttpPost("Login")]
         public async Task<IActionResult> LoginAsync([FromBody] Login request)
-            => new JsonResult(await _userService.LoginAsync(request.Email, request.Password));
+        {
+            var token = await _userService.LoginAsync(request.Email, request.Password);
+
+            if (token == null)
+                return Unauthorized();
+
+            return new JsonResult(token);
+        }
 
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> GetAsync()
-            => new JsonResult(await _userService.GetAsync(Guid.Parse(User.Identity.Name)));
+        {
+            var account = await _userService.GetAsync(Guid.Parse(User.Identity.Name));
+
+            if (account == null)
+                return NotFound();
+
+            return new JsonResult(account);
+        }
     }
 }
