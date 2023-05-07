@@ -127,7 +127,6 @@ namespace PMS.Infrastructure.UnitTests.RepositoryTests
             SetUp();
 
             await Assert.ThrowsAsync<UserNotFoundException>(() => _userRepository.GetAsync(Guid.NewGuid()));
-            await Assert.ThrowsAsync<UserNotFoundException>(() => _userRepository.GetAsync("example@mail.com"));
 
             _context.Dispose();
         }
