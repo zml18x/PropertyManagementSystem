@@ -7,6 +7,6 @@ namespace PMS.Infrastructure.Interfaces
     {
         public Task<PropertyDto> GetAsync(Guid id);
         public Task<IEnumerable<PropertyDto>> GetAllAsync(Guid userId);
-        public Task AddAsync(Guid userId, Guid addressId, string name, string description, PropertyType type);
+        public Task CreateAsync(Guid propertyId,Guid userId, Guid addressId, string name, string description, PropertyType type);
     }
 }

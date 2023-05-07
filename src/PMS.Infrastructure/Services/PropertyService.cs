@@ -42,14 +42,14 @@ namespace PMS.Infrastructure.Services
             return propertiesDtoList;
         }
 
-        public async Task AddAsync(Guid userId,Guid addressId, string name, string description, PropertyType type)
+        public async Task CreateAsync(Guid propertyId, Guid userId, Guid addressId, string name, string description, PropertyType type)
         {
             var property = await _propertyRepository.GetAsync(userId, name);
 
             if (property != null)
                 throw new Exception();
 
-            property = new Property(Guid.NewGuid(), userId, addressId, name, description, type);
+            property = new Property(propertyId, userId, addressId, name, description, type);
 
             await _propertyRepository.CreateAsync(property);
         }

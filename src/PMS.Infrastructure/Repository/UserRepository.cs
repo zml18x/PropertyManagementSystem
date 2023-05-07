@@ -24,8 +24,7 @@ namespace PMS.Infrastructure.Repository
                 ?? throw new UserNotFoundException($"User with ID '{id}' DOES NOT EXIST"));
 
         public async Task<User> GetAsync(string email)
-            => await Task.FromResult(await _context.Users.SingleOrDefaultAsync(u => u.Email.ToLower() == email.ToLower())
-                ?? throw new UserNotFoundException($"User with Email '{email}' does not exist"));
+            => await Task.FromResult(await _context.Users.SingleOrDefaultAsync(u => u.Email.ToLower() == email.ToLower()));
 
         public async Task CreateAsync(User user)
         {

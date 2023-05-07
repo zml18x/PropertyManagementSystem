@@ -1,5 +1,6 @@
 ﻿using PMS.Core.Enum;
 using PMS.Core.Exceptions;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PMS.Core.Entities
 {
@@ -12,6 +13,7 @@ namespace PMS.Core.Entities
         public int MaxOccupancy { get; protected set; }
         public string? Name { get; protected set; }
         public string? Description { get; protected set; }
+        [NotMapped]
         public bool Availability => !CheckInDate.HasValue;
         public DateTime? CheckInDate { get; protected set; }
         public DateTime? CheckOutDate { get; protected set; }
