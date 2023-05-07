@@ -21,7 +21,7 @@ namespace PMS.Api.Controllers
         }
 
 
-        [HttpPost,Route("/Create")]
+        [HttpPost("Create")]
         [Authorize]
         public async Task<IActionResult> CreatePropertyAsync([FromBody] CreateProperty request)
         {
@@ -34,6 +34,30 @@ namespace PMS.Api.Controllers
 
 
             return Created($"/Property/{propertyId}", null);
+        }
+
+        [HttpGet("{propertyId}")]
+        [Authorize]
+        public async Task<IActionResult> GetPropertyAsync(Guid propertyId)
+        {
+            var property = await _propertyService.GetAsync(propertyId);
+
+            if(property == null)
+                return NotFound();
+
+            return new JsonResult(property);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetAllPropertiesAsync()
+        {
+            var properties = await _propertyService.GetAllAsync(Guid.Parse(User.Identity.Name));
+
+            if(properties == null)
+                return NotFound();
+
+            return new JsonResult(properties);
         }
     }
 }
